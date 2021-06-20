@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movies.API", "Movies.API\Mo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityServer", "IdentityServer\IdentityServer.csproj", "{0082350B-DD76-4648-A126-C1DFA7A3686C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movies.Client", "Movies.Client\Movies.Client.csproj", "{FBD94412-1322-489B-821D-F2C6E98E89D7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{0082350B-DD76-4648-A126-C1DFA7A3686C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0082350B-DD76-4648-A126-C1DFA7A3686C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0082350B-DD76-4648-A126-C1DFA7A3686C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBD94412-1322-489B-821D-F2C6E98E89D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBD94412-1322-489B-821D-F2C6E98E89D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBD94412-1322-489B-821D-F2C6E98E89D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBD94412-1322-489B-821D-F2C6E98E89D7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
