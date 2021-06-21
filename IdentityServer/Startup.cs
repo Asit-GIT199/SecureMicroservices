@@ -25,21 +25,26 @@ namespace IdentityServer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllersWithViews();
+
             // we can check the result at this end point
             //https://localhost:5005/.well-known/openid-configuration
             services.AddRazorPages();
             services.AddIdentityServer()
                 .AddInMemoryClients(Config.Clients)
+                .AddInMemoryApiScopes(Config.ApiScopes)
                 .AddInMemoryIdentityResources(Config.IdentityResources)
-                //.AddInMemoryApiResources(Config.ApiResources)
-                .AddInMemoryApiScopes(Config.ApiScopes)                
-                //.AddTestUsers(Config.TestUsers)
-                //.AddInMemoryClients(new List<Client>())                
+                //.AddInMemoryApiResources(Config.ApiResources)                
+                .AddTestUsers(Config.TestUsers)
+                .AddDeveloperSigningCredential();
+
+
+                //.AddInMemoryClients(new List<Client>())
                 //.AddInMemoryIdentityResources(new List<IdentityResource>())
                 //.AddInMemoryApiResources(new List<ApiResource>())
-                //.AddInMemoryApiScopes(new List<ApiScope>())                
+                //.AddInMemoryApiScopes(new List<ApiScope>())
                 //.AddTestUsers(new List<TestUser>())
-                .AddDeveloperSigningCredential();
+                //.AddDeveloperSigningCredential();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -66,7 +71,7 @@ namespace IdentityServer
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapRazorPages();
+                endpoints.MapDefaultControllerRoute();
             });
         }
     }
