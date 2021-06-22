@@ -40,10 +40,12 @@ namespace Movies.Client
 
                 options.ClientId = "movies_mvc_client";
                 options.ClientSecret = "secret";
-                options.ResponseType = "code";
+                //options.ResponseType = "code"; // This is for Authentication flow
+                options.ResponseType = "code id_token"; // This is for Hybrid flow
 
                 options.Scope.Add("openid");
                 options.Scope.Add("profile");
+                options.Scope.Add("movieAPI"); // getting these from config.cs Allowed scopes
                 //options.Scope.Add("address");
                 //options.Scope.Add("email");
                 //options.Scope.Add("roles");
@@ -87,13 +89,16 @@ namespace Movies.Client
                 client.DefaultRequestHeaders.Add(HeaderNames.Accept, "application/json");
             });
 
-            services.AddSingleton(new ClientCredentialsTokenRequest
-            {
-                Address = "https://localhost:5005/connect/token",
-                ClientId = "movieClient",
-                ClientSecret = "secret",
-                Scope = "movieAPI"
-            });
+            //We will be getting the token from the HttpContextAcessor
+            services.AddHttpContextAccessor();
+
+            //services.AddSingleton(new ClientCredentialsTokenRequest
+            //{
+            //    Address = "https://localhost:5005/connect/token",
+            //    ClientId = "movieClient",
+            //    ClientSecret = "secret",
+            //    Scope = "movieAPI"
+            //});
 
 
         }

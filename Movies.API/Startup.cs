@@ -50,10 +50,11 @@ namespace Movies.API
                     };
                 });
 
+            //This is claim based Authorization - "movieClient", "movies_mvc_client" are the claim names
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("ClientIdPolicy", policy =>
-                                policy.RequireClaim("client_id", "movieClient"));
+                                policy.RequireClaim("client_id", "movieClient", "movies_mvc_client"));
             });
 
         }

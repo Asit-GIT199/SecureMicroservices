@@ -13,7 +13,7 @@ namespace Movies.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize("ClientIdPolicy")]
+    [Authorize("ClientIdPolicy")] // ClientIdPolicy is defined in Startup.cs and claims are mentioned there
     public class MoviesController : ControllerBase
     {
         private readonly MoviesAPIContext _context;
