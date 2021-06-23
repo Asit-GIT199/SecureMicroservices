@@ -1,5 +1,7 @@
 ﻿using IdentityModel.Client;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Movies.Client.Models;
 using Newtonsoft.Json;
 using System;
@@ -14,21 +16,49 @@ namespace Movies.Client.ApiServices
     {
         private readonly IHttpClientFactory _httpClientFactory;
 
-        public MovieApiService(IHttpClientFactory httpClientFactory)
+        // This is injected as we have to get the token from the identity server to verify the role
+        private readonly IHttpContextAccessor _httpContextAccessor; 
+
+        public MovieApiService(IHttpClientFactory httpClientFactory, IHttpContextAccessor httpContextAccessor)
         {
             _httpClientFactory = httpClientFactory;
+            _httpContextAccessor = httpContextAccessor;
         }
+        public async Task<UserInfoViewModel> GetUserInfo()
+        {
+            var idpClient = _httpClientFactory.CreateClient("IDPClient");
 
-        //private readonly IHttpContextAccessor _httpContextAccessor;
+            var metaDataResponse = await idpClient.GetDiscoveryDocumentAsync();
 
+            if (metaDataResponse.IsError)
+            {
+                throw new HttpRequestException("Something went wrong while requesting the access token");
+            }
+            var accessToken = await _httpContextAccessor
+                .HttpContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
 
-        //public MovieApiService(IHttpClientFactory httpClientFactory, IHttpContextAccessor httpContextAccessor)
-        //{
-        //    _httpClientFactory = httpClientFactory;
-        //    _httpContextAccessor = httpContextAccessor;
-        //}
+            var userInfoResponse = await idpClient.GetUserInfoAsync(
+               new UserInfoRequest
+               {
+                   Address = metaDataResponse.UserInfoEndpoint,
+                   Token = accessToken
+               });
 
+            if (userInfoResponse.IsError)
+            {
+                throw new HttpRequestException("Something went wrong while getting user info");
+            }
 
+            var userInfoDictionary = new Dictionary<string, string>();
+
+            foreach (var claim in userInfoResponse.Claims)
+            {
+                userInfoDictionary.Add(claim.Type, claim.Value);
+            }
+
+            return new UserInfoViewModel(userInfoDictionary);
+
+        }
         public async Task<IEnumerable<Movie>> GetMovies()
         {
             // WAY 1
@@ -134,5 +164,7 @@ namespace Movies.Client.ApiServices
         {
             throw new NotImplementedException();
         }
+
+        
     }
 }

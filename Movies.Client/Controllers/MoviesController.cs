@@ -19,12 +19,19 @@ namespace Movies.Client.Controllers
         public MoviesController(IMovieApiService movieApiService)
         {
             _movieApiService = movieApiService;
-        }      
+        }
+
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> OnlyAdmin()
+        {
+            var userInfo = await _movieApiService.GetUserInfo();
+            return View(userInfo);
+        }
 
         // GET: Movies
         public async Task<IActionResult> Index()
         {
-            LogTokenAndClaims();
+            await LogTokenAndClaims();
             return View(await _movieApiService.GetMovies());
         }
 
