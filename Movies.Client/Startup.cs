@@ -80,7 +80,8 @@ namespace Movies.Client
 
             services.AddHttpClient("MovieAPIClient", client =>
             {
-                client.BaseAddress = new Uri("https://localhost:5001/"); 
+                //client.BaseAddress = new Uri("https://localhost:5001/"); // This is for Api Application call
+                client.BaseAddress = new Uri("https://localhost:5010/"); // This is for Ocelot, in ocelot.json it will redirect to 5001
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Add(HeaderNames.Accept, "application/json");
             }).AddHttpMessageHandler<AuthenticationDelegatingHandler>();

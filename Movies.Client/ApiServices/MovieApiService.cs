@@ -67,7 +67,9 @@ namespace Movies.Client.ApiServices
             var httpClient = _httpClientFactory.CreateClient("MovieAPIClient");
 
             //This is how we should prepare the request url
-            var request = new HttpRequestMessage(HttpMethod.Get, "/api/movies/");
+            //var request = new HttpRequestMessage(HttpMethod.Get, "/api/movies/"); // This is for calling the Api Application directly
+
+            var request = new HttpRequestMessage(HttpMethod.Get, "/movies"); // This is for Ocelot, then the ocelot will call Api internally
 
             // send the request
             var response = await httpClient.SendAsync(
